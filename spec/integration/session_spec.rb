@@ -213,6 +213,14 @@ describe Capybara::Session do
       @session.html.should include("Hello world")
     end
 
+    it 'handles tet input correctly' do
+      %w(12.99 12,99).each do |value|
+        @session.visit '/poltergeist/text_input'
+        @session.fill_in('the-input', with: value)
+        @session.find_field('the-input').value.should eq(value)
+      end
+    end
+
     context 'click tests' do
       before do
         @session.visit '/poltergeist/click_test'
